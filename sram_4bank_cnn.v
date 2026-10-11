@@ -2,6 +2,7 @@
 
 //==============================================================================
 // Assignment 3: 4-Bank CNN Image SRAM Module
+// Verilog-2001 Standard (IEEE 1364-2001)
 //
 // Organization:
 //   - 4 independent banks (Bank 0, 1, 2, 3)
@@ -18,27 +19,37 @@ module sram_4bank_cnn #(
     parameter ROWS_PER_BANK = 256,
     parameter COLS_PER_BANK = 64
 )(
-    input  logic        clk,
+    input  wire        clk,
 
-    // Write interface (for runtime writes / testing)
-    input  logic        wr_en,
-    input  logic [1:0]  wr_bank_sel,
-    input  logic [7:0]  wr_row,
-    input  logic [5:0]  wr_col,
-    input  logic [7:0]  wr_data,
+    // Write interface (for initialization and test writes)
+    input  wire        wr_en,
+    input  wire [1:0]  wr_bank_sel,
+    input  wire [7:0]  wr_row,
+    input  wire [5:0]  wr_col,
+    input  wire [7:0]  wr_data,
 
     // Read interface: 4 independent bank addresses & outputs
-    input  logic        rd_en [0:3],
-    input  logic [7:0]  rd_row [0:3],
-    input  logic [5:0]  rd_col [0:3],
-    output logic [7:0]  bank_dout [0:3]
+    input  wire [3:0]  rd_en,
+    input  wire [7:0]  rd_row_0,
+    input  wire [7:0]  rd_row_1,
+    input  wire [7:0]  rd_row_2,
+    input  wire [7:0]  rd_row_3,
+    input  wire [5:0]  rd_col_0,
+    input  wire [5:0]  rd_col_1,
+    input  wire [5:0]  rd_col_2,
+    input  wire [5:0]  rd_col_3,
+
+    output reg  [7:0]  bank_dout_0,
+    output reg  [7:0]  bank_dout_1,
+    output reg  [7:0]  bank_dout_2,
+    output reg  [7:0]  bank_dout_3
 );
 
     // 4 memory arrays: 256 rows x 64 bytes
-    logic [7:0] mem_bank0 [0:ROWS_PER_BANK-1][0:COLS_PER_BANK-1];
-    logic [7:0] mem_bank1 [0:ROWS_PER_BANK-1][0:COLS_PER_BANK-1];
-    logic [7:0] mem_bank2 [0:ROWS_PER_BANK-1][0:COLS_PER_BANK-1];
-    logic [7:0] mem_bank3 [0:ROWS_PER_BANK-1][0:COLS_PER_BANK-1];
+    reg [7:0] mem_bank0 [0:ROWS_PER_BANK-1][0:COLS_PER_BANK-1];
+    reg [7:0] mem_bank1 [0:ROWS_PER_BANK-1][0:COLS_PER_BANK-1];
+    reg [7:0] mem_bank2 [0:ROWS_PER_BANK-1][0:COLS_PER_BANK-1];
+    reg [7:0] mem_bank3 [0:ROWS_PER_BANK-1][0:COLS_PER_BANK-1];
 
     // Initialization with recognizable staggered test patterns
     integer init_r, init_c;
@@ -53,7 +64,7 @@ module sram_4bank_cnn #(
         end
     end
 
-    always_ff @(posedge clk) begin
+    always @(posedge clk) begin
         // Write port
         if (wr_en) begin
             case (wr_bank_sel)
@@ -65,10 +76,10 @@ module sram_4bank_cnn #(
         end
 
         // Synchronous Read ports (1 cycle latency for all 4 banks)
-        if (rd_en[0]) bank_dout[0] <= mem_bank0[rd_row[0]][rd_col[0]];
-        if (rd_en[1]) bank_dout[1] <= mem_bank1[rd_row[1]][rd_col[1]];
-        if (rd_en[2]) bank_dout[2] <= mem_bank2[rd_row[2]][rd_col[2]];
-        if (rd_en[3]) bank_dout[3] <= mem_bank3[rd_row[3]][rd_col[3]];
+        if (rd_en[0]) bank_dout_0 <= mem_bank0[rd_row_0][rd_col_0];
+        if (rd_en[1]) bank_dout_1 <= mem_bank1[rd_row_1][rd_col_1];
+        if (rd_en[2]) bank_dout_2 <= mem_bank2[rd_row_2][rd_col_2];
+        if (rd_en[3]) bank_dout_3 <= mem_bank3[rd_row_3][rd_col_3];
     end
 
 endmodule

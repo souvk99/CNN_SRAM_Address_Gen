@@ -1,4 +1,5 @@
 # Assignment 3: CNN Address Generation Across Staggered SRAM Banks
+*Verilog-2001 Standard (IEEE 1364-2001)*
 
 ## 1. Specification & Mathematical Modeling
 
@@ -39,20 +40,20 @@ This module implements an **Address Generation and Read-Control Block** for the 
 
 ---
 
-## 2. Port Definitions (`cnn_addr_gen.sv`)
+## 2. Port Definitions (`cnn_addr_gen.v`)
 
 | Port | Direction | Width | Description |
 | :--- | :---: | :---: | :--- |
 | `clk` | Input | 1 bit | System clock (100 MHz) |
 | `reset_n` | Input | 1 bit | Active-low reset |
 | `start` | Input | 1 bit | Initiates image window sweep |
-| `bank_sel [0:2]` | Output | $3 \times 2$ bits | Bank indices for the 3 current window columns |
-| `bank_addr [0:2]` | Output | $3 \times 8$ bits | Local row addresses within selected banks |
-| `bank_col [0:2]` | Output | $3 \times 6$ bits | Local column addresses within selected banks |
-| `sram_rd_en [0:3]` | Output | 4 bits | Individual read enables to the 4 physical SRAM banks |
-| `sram_rd_row [0:3]` | Output | $4 \times 8$ bits | Row addresses routed to the 4 physical SRAM banks |
-| `sram_rd_col [0:3]` | Output | $4 \times 6$ bits | Column addresses routed to the 4 physical SRAM banks |
-| `bank_dout [0:3]` | Input | $4 \times 8$ bits | Data bytes read from the 4 SRAM banks |
+| `bank_sel_0, 1, 2` | Output | $3 \times 2$ bits | Bank indices for the 3 current window columns |
+| `bank_addr_0, 1, 2` | Output | $3 \times 8$ bits | Local row addresses within selected banks |
+| `bank_col_0, 1, 2` | Output | $3 \times 6$ bits | Local column addresses within selected banks |
+| `sram_rd_en` | Output | 4 bits | Individual read enables to the 4 physical SRAM banks |
+| `sram_rd_row_0..3` | Output | $4 \times 8$ bits | Row addresses routed to the 4 physical SRAM banks |
+| `sram_rd_col_0..3` | Output | $4 \times 6$ bits | Column addresses routed to the 4 physical SRAM banks |
+| `bank_dout_0..3` | Input | $4 \times 8$ bits | Data bytes read from the 4 SRAM banks |
 | `pixel_out` | Output | 24 bits | 3 reassembled pixels in spatial order `[23:0]` |
 | `out_valid` | Output | 1 bit | High when `pixel_out` contains valid data |
 | `busy` | Output | 1 bit | High while scanning image |
@@ -63,15 +64,9 @@ This module implements an **Address Generation and Read-Control Block** for the 
 ## 3. How to Run Simulation
 
 ```bash
-# Compile design and testbench with SystemVerilog support
-iverilog -g2012 -o sim_cnn_addr_gen.vvp sram_4bank_cnn.sv cnn_addr_gen.sv tb_cnn_addr_gen.sv
+# Compile design and testbench with standard Verilog
+iverilog -o sim_3.vvp sram_4bank_cnn.v cnn_addr_gen.v tb_cnn_addr_gen.v
 
 # Execute simulation
-vvp sim_cnn_addr_gen.vvp
+vvp sim_3.vvp
 ```
-
-To view waveforms:
-```bash
-gtkwave cnn_addr_gen.vcd
-```
-
