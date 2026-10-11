@@ -83,3 +83,4 @@ module sram_4bank_cnn #(
     end
 
 endmodule
+

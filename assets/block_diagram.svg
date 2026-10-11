@@ -1,0 +1,149 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 600" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0f172a; }
+      .box-input { fill: #1e293b; stroke: #38bdf8; stroke-width: 2; rx: 8; }
+      .box-ctrl { fill: #1e1b4b; stroke: #a855f7; stroke-width: 2; rx: 8; }
+      .box-data { fill: #064e3b; stroke: #10b981; stroke-width: 2; rx: 8; }
+      .box-pipe { fill: #4c0519; stroke: #ec4899; stroke-width: 2; rx: 8; }
+      .box-out { fill: #1e293b; stroke: #f59e0b; stroke-width: 2; rx: 8; }
+      .box-sub { fill: #0f2e22; stroke: #34d399; stroke-dasharray: 4; stroke-width: 1.5; rx: 6; }
+      .box-ctrl-sub { fill: #2e1065; stroke: #c084fc; stroke-dasharray: 4; stroke-width: 1.5; rx: 6; }
+      .title-text { fill: #f8fafc; font-family: system-ui, -apple-system, sans-serif; font-size: 16px; font-weight: bold; }
+      .label-text { fill: #e2e8f0; font-family: system-ui, -apple-system, sans-serif; font-size: 12px; font-weight: 600; text-anchor: middle; }
+      .sub-text { fill: #94a3b8; font-family: system-ui, -apple-system, sans-serif; font-size: 10px; text-anchor: middle; }
+      .bus-text { fill: #38bdf8; font-family: monospace; font-size: 11px; font-weight: bold; }
+      .arrow { stroke: #38bdf8; stroke-width: 2; fill: none; marker-end: url(#arrow-blue); }
+      .arrow-ctrl { stroke: #c084fc; stroke-width: 2; stroke-dasharray: 3 3; fill: none; marker-end: url(#arrow-purple); }
+      .arrow-data { stroke: #10b981; stroke-width: 2.2; fill: none; marker-end: url(#arrow-green); }
+      .arrow-pipe { stroke: #ec4899; stroke-width: 2.2; fill: none; marker-end: url(#arrow-pink); }
+      .arrow-out { stroke: #f59e0b; stroke-width: 2; fill: none; marker-end: url(#arrow-amber); }
+    </style>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#c084fc"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arrow-pink" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ec4899"/>
+    </marker>
+    <marker id="arrow-amber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1040" height="600" class="bg" rx="14"/>
+
+  <text x="520" y="32" class="title-text" font-size="18" text-anchor="middle" fill="#38bdf8">CNN Sliding Window Address Generator &amp; 4-Bank SRAM Subsystem</text>
+
+  <!-- Left: Control & Address Generator -->
+  <g id="addr_gen">
+    <rect x="25" y="60" width="300" height="510" class="box-ctrl-sub"/>
+    <text x="175" y="85" class="label-text" fill="#c084fc">CNN Address Generator Unit</text>
+
+    <!-- Inputs -->
+    <rect x="40" y="105" width="125" height="28" class="box-input"/>
+    <text x="102" y="123" class="label-text">clk (100 MHz)</text>
+    <rect x="180" y="105" width="130" height="28" class="box-input"/>
+    <text x="245" y="123" class="label-text">reset_n</text>
+
+    <rect x="40" y="145" width="270" height="35" class="box-ctrl"/>
+    <text x="175" y="167" class="label-text" fill="#e9d5ff">start (Pulse Trigger)</text>
+
+    <!-- Column Major FSM -->
+    <rect x="40" y="195" width="270" height="70" class="box-ctrl"/>
+    <text x="175" y="220" class="label-text">Column-Major FSM</text>
+    <text x="175" y="240" class="sub-text">Inner: row_cnt (0..H-1) | Outer: col_cnt (0..W-3)</text>
+    <text x="175" y="255" class="sub-text">States: IDLE -&gt; STREAM -&gt; DONE</text>
+
+    <!-- Modulo 4 Bank Staggering -->
+    <rect x="40" y="280" width="270" height="110" class="box-pipe"/>
+    <text x="175" y="305" class="label-text" fill="#fbcfe8">Bank Modulo-4 Staggering</text>
+    <text x="175" y="325" class="sub-text">Bank 0 = (col + 0) mod 4</text>
+    <text x="175" y="342" class="sub-text">Bank 1 = (col + 1) mod 4</text>
+    <text x="175" y="359" class="sub-text">Bank 2 = (col + 2) mod 4</text>
+    <text x="175" y="377" class="sub-text" fill="#f472b6" font-weight="bold">Disjoint Invariant: Bank0 != Bank1 != Bank2</text>
+
+    <!-- Local Addr Slicing -->
+    <rect x="40" y="405" width="270" height="70" class="box-ctrl"/>
+    <text x="175" y="430" class="label-text">Row/Col Address Slicing</text>
+    <text x="175" y="448" class="sub-text">sram_rd_row = row_cnt[7:0]</text>
+    <text x="175" y="463" class="sub-text">sram_rd_col = (col + k) / 4</text>
+
+    <!-- Pipeline Registers -->
+    <rect x="40" y="490" width="270" height="65" class="box-ctrl"/>
+    <text x="175" y="515" class="label-text">Alignment Delay Regs</text>
+    <text x="175" y="535" class="sub-text">Pipelined bank_sel[1:0] across 1 cycle</text>
+  </g>
+
+  <!-- Center: 4-Bank Interleaved SRAM -->
+  <g id="sram">
+    <rect x="350" y="60" width="310" height="510" class="box-sub"/>
+    <text x="505" y="85" class="label-text" fill="#34d399">4-Bank Interleaved SRAM (64 KB)</text>
+
+    <rect x="365" y="105" width="280" height="95" class="box-data"/>
+    <text x="505" y="130" class="label-text" fill="#a7f3d0">BANK 0 (Cols 0, 4, 8, 12...)</text>
+    <text x="505" y="150" class="sub-text">256 rows x 64 cols (16 KB) | 8-bit Port</text>
+    <text x="505" y="175" class="bus-text" text-anchor="middle">bank_dout_0[7:0]</text>
+
+    <rect x="365" y="215" width="280" height="95" class="box-data"/>
+    <text x="505" y="240" class="label-text" fill="#a7f3d0">BANK 1 (Cols 1, 5, 9, 13...)</text>
+    <text x="505" y="260" class="sub-text">256 rows x 64 cols (16 KB) | 8-bit Port</text>
+    <text x="505" y="285" class="bus-text" text-anchor="middle">bank_dout_1[7:0]</text>
+
+    <rect x="365" y="325" width="280" height="95" class="box-data"/>
+    <text x="505" y="350" class="label-text" fill="#a7f3d0">BANK 2 (Cols 2, 6, 10, 14...)</text>
+    <text x="505" y="370" class="sub-text">256 rows x 64 cols (16 KB) | 8-bit Port</text>
+    <text x="505" y="395" class="bus-text" text-anchor="middle">bank_dout_2[7:0]</text>
+
+    <rect x="365" y="435" width="280" height="95" class="box-data"/>
+    <text x="505" y="460" class="label-text" fill="#a7f3d0">BANK 3 (Cols 3, 7, 11, 15...)</text>
+    <text x="505" y="480" class="sub-text">256 rows x 64 cols (16 KB) | 8-bit Port</text>
+    <text x="505" y="505" class="bus-text" text-anchor="middle">bank_dout_3[7:0]</text>
+  </g>
+
+  <!-- Right: Rotation Multiplexer & Outputs -->
+  <g id="mux_and_out">
+    <rect x="685" y="60" width="330" height="510" class="box-out" fill-opacity="0.25"/>
+    <text x="850" y="85" class="label-text" fill="#f59e0b">Spatial Rotation Mux &amp; Output</text>
+
+    <!-- 3-Way Crossbar Mux -->
+    <rect x="705" y="115" width="290" height="230" class="box-pipe"/>
+    <text x="850" y="145" class="label-text" fill="#fbcfe8">Rotation Alignment Crossbar</text>
+    <text x="850" y="170" class="sub-text">Steers bank outputs into spatial left-to-right:</text>
+    <text x="850" y="200" class="sub-text">pix_0 = Mux4(bank_dout[0..3], pipe_bank_0)</text>
+    <text x="850" y="225" class="sub-text">pix_1 = Mux4(bank_dout[0..3], pipe_bank_1)</text>
+    <text x="850" y="250" class="sub-text">pix_2 = Mux4(bank_dout[0..3], pipe_bank_2)</text>
+    <text x="850" y="285" class="sub-text" fill="#f472b6">Handles circular wrap-around seamlessly</text>
+    <text x="850" y="315" class="bus-text" text-anchor="middle">{pix_0, pix_1, pix_2}</text>
+
+    <!-- Outputs -->
+    <rect x="715" y="375" width="270" height="55" class="box-out"/>
+    <text x="850" y="402" class="label-text" fill="#fef08a">pixel_out[23:0]</text>
+    <text x="850" y="420" class="sub-text">3 Parallel Spatial Pixels / Cycle</text>
+
+    <rect x="715" y="445" width="125" height="40" class="box-out" stroke="#10b981"/>
+    <text x="777" y="470" class="label-text" fill="#a7f3d0">out_valid</text>
+
+    <rect x="860" y="445" width="125" height="40" class="box-ctrl"/>
+    <text x="922" y="470" class="label-text" fill="#e9d5ff">done / busy</text>
+  </g>
+
+  <!-- Connective Arrows -->
+  <path d="M 325 330 L 365 150" class="arrow"/>
+  <path d="M 325 340 L 365 260" class="arrow"/>
+  <path d="M 325 350 L 365 370" class="arrow"/>
+  <path d="M 325 360 L 365 480" class="arrow"/>
+
+  <path d="M 645 150 L 705 210" class="arrow-data"/>
+  <path d="M 645 260 L 705 220" class="arrow-data"/>
+  <path d="M 645 370 L 705 230" class="arrow-data"/>
+  <path d="M 645 480 L 705 240" class="arrow-data"/>
+
+  <path d="M 850 345 L 850 375" class="arrow-out"/>
+</svg>

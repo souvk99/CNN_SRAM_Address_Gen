@@ -1,12 +1,17 @@
-# Simulation outputs
-*.vvp
-*.vcd
-*.wdb
-*.wcfg
-
-# Tool logs and temp files
+# Vivado-generated project state and run products
+.Xil/
+*.cache/
+*.gen/
+*.hw/
+*.ip_user_files/
+*.runs/
+*.sim/
+*.srcs/
 *.jou
 *.log
 *.str
-*.pb
-.Xil/
+
+# Local simulator temporary files
+*.vvp
+*.vcd
+*.wdb

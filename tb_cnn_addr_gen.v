@@ -237,3 +237,4 @@ module tb_cnn_addr_gen;
     end
 
 endmodule
+

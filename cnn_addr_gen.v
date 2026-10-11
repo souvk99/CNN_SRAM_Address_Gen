@@ -202,3 +202,4 @@ module cnn_addr_gen #(
     assign out_valid = pipe_valid;
 
 endmodule
+

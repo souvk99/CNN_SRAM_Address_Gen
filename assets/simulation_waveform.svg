@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 640" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0b0f19; }
+      .grid-line { stroke: #1e293b; stroke-width: 1; stroke-dasharray: 2 4; }
+      .time-label { fill: #64748b; font-family: monospace; font-size: 11px; text-anchor: middle; }
+      .signal-name { fill: #e2e8f0; font-family: system-ui, -apple-system, sans-serif; font-size: 12px; font-weight: 600; text-anchor: end; }
+      .signal-type { fill: #94a3b8; font-family: monospace; font-size: 10px; text-anchor: end; }
+      .wave-clk { stroke: #38bdf8; stroke-width: 1.8; fill: none; }
+      .wave-binary { stroke: #a855f7; stroke-width: 2; fill: none; }
+      .wave-done { stroke: #10b981; stroke-width: 2.2; fill: none; }
+      .bus-outline { stroke: #f59e0b; stroke-width: 1.5; fill: #1e1b4b; fill-opacity: 0.6; }
+      .bus-data { stroke: #06b6d4; stroke-width: 1.5; fill: #082f49; fill-opacity: 0.7; }
+      .bus-acc { stroke: #10b981; stroke-width: 1.8; fill: #064e3b; fill-opacity: 0.8; }
+      .bus-rot { stroke: #ec4899; stroke-width: 1.8; fill: #4c0519; fill-opacity: 0.8; }
+      .bus-label { fill: #f8fafc; font-family: monospace; font-size: 10px; font-weight: bold; text-anchor: middle; }
+      .title-text { fill: #f8fafc; font-family: system-ui, -apple-system, sans-serif; font-size: 17px; font-weight: bold; text-anchor: middle; }
+      .phase-text { fill: #38bdf8; font-family: system-ui, -apple-system, sans-serif; font-size: 11px; font-weight: bold; text-anchor: middle; }
+      .cursor-line { stroke: #ef4444; stroke-width: 1.5; stroke-dasharray: 3 3; }
+      .cursor-text { fill: #ef4444; font-family: monospace; font-size: 10px; font-weight: bold; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1060" height="640" class="bg" rx="10"/>
+
+  <!-- Title Header -->
+  <text x="530" y="30" class="title-text">Vivado Behavioral Simulation Waveform (tb_cnn_addr_gen: Sliding Window &amp; Bank Rotation)</text>
+
+  <!-- Phase Markers -->
+  <rect x="230" y="42" width="230" height="22" fill="#1e1b4b" rx="4" stroke="#a855f7" stroke-width="1"/>
+  <text x="345" y="57" class="phase-text" fill="#c084fc">WINDOW 0: BANKS {0, 1, 2}</text>
+
+  <rect x="480" y="42" width="230" height="22" fill="#064e3b" rx="4" stroke="#10b981" stroke-width="1"/>
+  <text x="595" y="57" class="phase-text" fill="#34d399">WINDOW 1: BANKS {1, 2, 3}</text>
+
+  <rect x="730" y="42" width="280" height="22" fill="#4c0519" rx="4" stroke="#ec4899" stroke-width="1"/>
+  <text x="870" y="57" class="phase-text" fill="#f472b6">ROTATION BOUNDARY: BANKS {3, 0, 1}</text>
+
+  <!-- Time Grid Markers -->
+  <g id="grid">
+    <line x1="170" y1="70" x2="170" y2="610" class="grid-line"/>
+    <text x="170" y="80" class="time-label">0 ns</text>
+
+    <line x1="210" y1="70" x2="210" y2="610" class="grid-line"/>
+    <text x="210" y="80" class="time-label">25 ns (RST)</text>
+
+    <line x1="250" y1="70" x2="250" y2="610" class="grid-line"/>
+    <text x="250" y="80" class="time-label">START</text>
+
+    <line x1="390" y1="70" x2="390" y2="610" class="cursor-line"/>
+    <text x="390" y="80" class="cursor-text" text-anchor="middle">Out 0 (0x104070)</text>
+
+    <line x1="590" y1="70" x2="590" y2="610" class="cursor-line"/>
+    <text x="590" y="80" class="cursor-text" text-anchor="middle">Out 1 (0x4070A0)</text>
+
+    <line x1="810" y1="70" x2="810" y2="610" class="cursor-line"/>
+    <text x="810" y="80" class="cursor-text" text-anchor="middle">Out 2 (0x70A011)</text>
+
+    <line x1="970" y1="70" x2="970" y2="610" class="cursor-line"/>
+    <text x="970" y="80" class="cursor-text" text-anchor="middle">Rotate (0xA01141)</text>
+  </g>
+
+  <!-- Signal 1: clk -->
+  <text x="155" y="115" class="signal-name">clk</text>
+  <text x="155" y="128" class="signal-type">100 MHz</text>
+  <path d="M 170 120 L 190 120 L 190 100 L 210 100 L 210 120 L 230 120 L 230 100 L 250 100 L 250 120 L 280 120 L 280 100 L 310 100 L 310 120 L 340 120 L 340 100 L 370 100 L 370 120 L 400 120 L 400 100 L 430 100 L 430 120 L 460 120 L 460 100 L 490 100 L 490 120 L 520 120 L 520 100 L 550 100 L 550 120 L 580 120 L 580 100 L 610 100 L 610 120 L 640 120 L 640 100 L 670 100 L 670 120 L 700 120 L 700 100 L 730 100 L 730 120 L 760 120 L 760 100 L 790 100 L 790 120 L 820 120 L 820 100 L 850 100 L 850 120 L 880 120 L 880 100 L 910 100 L 910 120 L 940 120 L 940 100 L 970 100 L 970 120 L 1000 120 L 1000 100 L 1040 100" class="wave-clk"/>
+
+  <!-- Signal 2: reset_n -->
+  <text x="155" y="165" class="signal-name">reset_n</text>
+  <text x="155" y="178" class="signal-type">1-bit</text>
+  <path d="M 170 170 L 210 170 L 210 150 L 1040 150" class="wave-binary"/>
+
+  <!-- Signal 3: start -->
+  <text x="155" y="215" class="signal-name">start</text>
+  <text x="155" y="228" class="signal-type">1-bit</text>
+  <path d="M 170 220 L 240 220 L 240 200 L 270 200 L 270 220 L 1040 220" class="wave-binary" stroke="#38bdf8"/>
+
+  <!-- Signal 4: busy -->
+  <text x="155" y="265" class="signal-name">busy</text>
+  <text x="155" y="278" class="signal-type">1-bit</text>
+  <path d="M 170 270 L 270 270 L 270 250 L 1040 250" class="wave-done"/>
+
+  <!-- Signal 5: bank_sel_0..2 (Mutually Disjoint Banks) -->
+  <text x="155" y="320" class="signal-name">bank_triplet</text>
+  <text x="155" y="333" class="signal-type">{B0, B1, B2}</text>
+  <line x1="170" y1="315" x2="270" y2="315" stroke="#475569" stroke-width="2"/>
+  <polygon points="270,315 275,305 450,305 455,315 450,325 275,325" class="bus-outline"/>
+  <text x="365" y="319" class="bus-label">{0, 1, 2} (Col 0..2)</text>
+  <polygon points="455,315 460,305 675,305 680,315 675,325 460,325" class="bus-outline"/>
+  <text x="570" y="319" class="bus-label">{1, 2, 3} (Col 1..3)</text>
+  <polygon points="680,315 685,305 850,305 855,315 850,325 685,325" class="bus-rot"/>
+  <text x="767" y="319" class="bus-label">{2, 3, 0} (Col 2..4)</text>
+  <polygon points="855,315 860,305 1035,305 1040,315 1035,325 860,325" class="bus-rot"/>
+  <text x="947" y="319" class="bus-label">{3, 0, 1} (Wrap Rotation)</text>
+
+  <!-- Signal 6: sram_rd_en[3:0] -->
+  <text x="155" y="380" class="signal-name">sram_rd_en</text>
+  <text x="155" y="393" class="signal-type">[3:0] 1-hot enable</text>
+  <line x1="170" y1="375" x2="270" y2="375" stroke="#475569" stroke-width="2"/>
+  <polygon points="270,375 275,365 450,365 455,375 450,385 275,385" class="bus-data"/>
+  <text x="365" y="379" class="bus-label">4'b0111 (Banks 0,1,2)</text>
+  <polygon points="455,375 460,365 675,365 680,375 675,385 460,385" class="bus-data"/>
+  <text x="570" y="379" class="bus-label">4'b1110 (Banks 1,2,3)</text>
+  <polygon points="680,375 685,365 850,365 855,375 850,385 685,385" class="bus-data"/>
+  <text x="767" y="379" class="bus-label">4'b1101 (Banks 2,3,0)</text>
+  <polygon points="855,375 860,365 1035,365 1040,375 1035,385 860,385" class="bus-data"/>
+  <text x="947" y="379" class="bus-label">4'b1011 (Banks 3,0,1)</text>
+
+  <!-- Signal 7: out_valid -->
+  <text x="155" y="440" class="signal-name">out_valid</text>
+  <text x="155" y="453" class="signal-type">1-bit</text>
+  <path d="M 170 445 L 350 445 L 350 425 L 1040 425" class="wave-done"/>
+
+  <!-- Signal 8: pixel_out[23:0] -->
+  <text x="155" y="505" class="signal-name">pixel_out</text>
+  <text x="155" y="518" class="signal-type">[23:0] (3 Pixels)</text>
+  <line x1="170" y1="500" x2="350" y2="500" stroke="#475569" stroke-width="2"/>
+  <polygon points="350,500 355,490 520,490 525,500 520,510 355,510" class="bus-acc"/>
+  <text x="437" y="504" class="bus-label">0x104070 (P0..P2)</text>
+  <polygon points="525,500 530,490 710,490 715,500 710,510 530,510" class="bus-acc"/>
+  <text x="620" y="504" class="bus-label">0x4070A0 (P0..P2)</text>
+  <polygon points="715,500 720,490 890,490 895,500 890,510 720,510" class="bus-rot"/>
+  <text x="805" y="504" class="bus-label">0x70A011 (P0..P2)</text>
+  <polygon points="895,500 900,490 1035,490 1040,500 1035,510 900,510" class="bus-rot" stroke="#ec4899" stroke-width="2"/>
+  <text x="967" y="504" class="bus-label">0xA01141 (Rotated)</text>
+
+  <!-- Banner -->
+  <rect x="230" y="545" width="780" height="40" fill="#2d0617" rx="6" stroke="#f472b6" stroke-width="1.5"/>
+  <text x="620" y="570" fill="#fbcfe8" font-family="system-ui" font-size="13px" font-weight="bold" text-anchor="middle">NO BANK COLLISION: Modulo-4 Staggering guarantees 3 distinct banks per cycle across all 112 windows!</text>
+</svg>
