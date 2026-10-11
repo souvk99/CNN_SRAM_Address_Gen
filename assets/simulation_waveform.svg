@@ -129,3 +129,4 @@
   <rect x="230" y="545" width="780" height="40" fill="#2d0617" rx="6" stroke="#f472b6" stroke-width="1.5"/>
   <text x="620" y="570" fill="#fbcfe8" font-family="system-ui" font-size="13px" font-weight="bold" text-anchor="middle">NO BANK COLLISION: Modulo-4 Staggering guarantees 3 distinct banks per cycle across all 112 windows!</text>
 </svg>
+

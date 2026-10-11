@@ -6,3 +6,4 @@ run all
 close_sim
 close_project
 exit
+
