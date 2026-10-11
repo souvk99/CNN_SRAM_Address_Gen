@@ -1,0 +1,12 @@
+# Simulation outputs
+*.vvp
+*.vcd
+*.wdb
+*.wcfg
+
+# Tool logs and temp files
+*.jou
+*.log
+*.str
+*.pb
+.Xil/
